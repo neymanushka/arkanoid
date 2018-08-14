@@ -152,7 +152,8 @@ function gameLoop( delta )
             delta = 0.1;
             game.balls.forEach( b =>
             {
-                if( b.visible = b.y < app.renderer.height )
+                if( b.y < app.renderer.height ) b.visible = false;
+                if( b.visible )
                 {
                     count++;
                     b.newVelocity = Vector2.add( b.velocity,Vector2.mul(b.gravity,delta));

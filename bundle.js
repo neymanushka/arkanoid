@@ -42103,7 +42103,8 @@ function gameLoop(delta) {
             count = 0;
             delta = 0.1;
             game.balls.forEach(function (b) {
-                if (b.visible = b.y < app.renderer.height) {
+                if (b.y < app.renderer.height) b.visible = false;
+                if (b.visible) {
                     count++;
                     b.newVelocity = Vector_1.Vector2.add(b.velocity, Vector_1.Vector2.mul(b.gravity, delta));
                     b.new = Vector_1.Vector2.add(Vector_1.Vector2.mul(b.newVelocity, delta), b.pos);
