@@ -1,0 +1,25 @@
+{
+"frames": {
+	"brick.png": {
+		"frame": {"x":0, "y":33, "w":64, "h":32},
+		"spriteSourceSize": {"x":0,"y":0,"w":64,"h":32},
+		"sourceSize": {"w":64,"h":32}
+	},
+	"brick2.png": {
+		"frame": {"x":0, "y":66, "w":64, "h":32},
+		"spriteSourceSize": {"x":0,"y":0,"w":64,"h":32},
+		"sourceSize": {"w":64,"h":32}
+	},
+	"platform.png": {
+		"frame": {"x":0, "y":0, "w":128, "h":32},
+		"spriteSourceSize": {"x":0,"y":0,"w":128,"h":32},
+		"sourceSize": {"w":128,"h":32}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 129, "h": 99},
+	"scale": "1"
+}
+}
