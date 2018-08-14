@@ -152,7 +152,7 @@ function gameLoop( delta )
             delta = 0.1;
             game.balls.forEach( b =>
             {
-                if( b.y < app.renderer.height ) b.visible = false;
+                if( b.y > app.renderer.height ) b.visible = false;
                 if( b.visible )
                 {
                     count++;
