@@ -41668,51 +41668,93 @@ module.exports = {
 },{}],190:[function(require,module,exports){
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var Rect_1 = require("../Core/Rect");
+var Circle_1 = require("../Core/Circle");
+var Vector_1 = require("../Core/Vector");
+
+var BallSpawner = function (_Rect_1$Rect) {
+    _inherits(BallSpawner, _Rect_1$Rect);
+
+    function BallSpawner(game, x, y) {
+        _classCallCheck(this, BallSpawner);
+
+        return _possibleConstructorReturn(this, (BallSpawner.__proto__ || Object.getPrototypeOf(BallSpawner)).call(this, game, x, y, 64, 64, 0x9966FF, 0xFF3064));
+    }
+
+    _createClass(BallSpawner, [{
+        key: "onHit",
+        value: function onHit() {}
+    }, {
+        key: "onDestroy",
+        value: function onDestroy(ball) {
+            _get(BallSpawner.prototype.__proto__ || Object.getPrototypeOf(BallSpawner.prototype), "onDestroy", this).call(this, ball);
+            this.game.balls.push(new Circle_1.Circle(this.game, this.center.x, this.center.y, 8, new Vector_1.Vector2(3, 5)));
+        }
+    }]);
+
+    return BallSpawner;
+}(Rect_1.Rect);
+
+exports.BallSpawner = BallSpawner;
+
+},{"../Core/Circle":194,"../Core/Rect":197,"../Core/Vector":198}],191:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var __importStar = undefined && undefined.__importStar || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) {
-        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    }result["default"] = mod;
-    return result;
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 Object.defineProperty(exports, "__esModule", { value: true });
-var PIXI = __importStar(require("pixi.js"));
-var Vector_1 = require("./Vector");
-function collisionRectangleCircle(r, c) {
-    var dx = new Vector_1.Vector2(c.new.x - r.center.x, c.new.y - r.center.y);
-    var ax = Math.abs(dx.x);
-    var ay = Math.abs(dx.y);
-    var nx = ax - r.hw;
-    var ny = ay - r.hh;
-    if (nx > c.radius || ny > c.radius || nx > 0.0 && ny > 0.0 && nx * nx + ny * ny - c.radius * c.radius > 0.0) return { isCollided: false };
-    var closest = new Vector_1.Vector2(Vector_1.MathHelper.clamp(dx.x, -r.hw, r.hw), Vector_1.MathHelper.clamp(dx.y, -r.hh, r.hh));
-    var inside = false;
-    if (dx.equally(closest)) {
-        inside = true;
-        if (ax > ay) {
-            closest.x = closest.x > 0 ? r.hw : -r.hw;
-        } else {
-            closest.y = closest.y > 0 ? r.hh : -r.hh;
-        }
+var Rect_1 = require("../Core/Rect");
+
+var Brick = function (_Rect_1$Rect) {
+    _inherits(Brick, _Rect_1$Rect);
+
+    function Brick(game, x, y) {
+        _classCallCheck(this, Brick);
+
+        return _possibleConstructorReturn(this, (Brick.__proto__ || Object.getPrototypeOf(Brick)).call(this, game, x, y, 64, 64, 0x9966FF, 0xFFFFFFFF));
     }
-    var norm = Vector_1.Vector2.sub(dx, closest);
-    var d = norm.len();
-    if (inside) norm = Vector_1.Vector2.negative(norm);
-    var penetration = inside ? c.radius + d : c.radius - d;
-    return { isCollided: true, normal: Vector_1.Vector2.norm(norm), penetration: penetration };
-}
-exports.collisionRectangleCircle = collisionRectangleCircle;
+
+    _createClass(Brick, [{
+        key: "onHit",
+        value: function onHit() {}
+    }, {
+        key: "onDestroy",
+        value: function onDestroy(ball) {
+            //super.onDestroy(ball);
+        }
+    }]);
+
+    return Brick;
+}(Rect_1.Rect);
+
+exports.Brick = Brick;
+
+},{"../Core/Rect":197}],192:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Vector_1 = require("../Core/Vector");
 
 var Edge = function () {
     function Edge(x, y, w, h) {
@@ -41740,6 +41782,178 @@ var Edge = function () {
 
 exports.Edge = Edge;
 
+},{"../Core/Vector":198}],193:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Rect_1 = require("../Core/Rect");
+
+var Paddle = function (_Rect_1$Rect) {
+    _inherits(Paddle, _Rect_1$Rect);
+
+    function Paddle(game, x, y) {
+        _classCallCheck(this, Paddle);
+
+        var _this = _possibleConstructorReturn(this, (Paddle.__proto__ || Object.getPrototypeOf(Paddle)).call(this, game, 0, y, 256, 32, 0x9966FF, 0xFFFFFFFF));
+
+        _this.bounce = 1.1;
+        return _this;
+    }
+
+    _createClass(Paddle, [{
+        key: "update",
+        value: function update() {
+            this.x = this.center.x = this.game.mousePos;
+        }
+    }, {
+        key: "onHit",
+        value: function onHit() {}
+    }, {
+        key: "onDestroy",
+        value: function onDestroy(ball) {
+            //super.onBrickDestroy();
+        }
+    }]);
+
+    return Paddle;
+}(Rect_1.Rect);
+
+exports.Paddle = Paddle;
+
+},{"../Core/Rect":197}],194:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Vector_1 = require("./Vector");
+
+var Circle = function (_PIXI$Graphics) {
+    _inherits(Circle, _PIXI$Graphics);
+
+    function Circle(game, x, y, r, velocity) {
+        _classCallCheck(this, Circle);
+
+        var _this = _possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this));
+
+        _this.game = game;
+        _this.gravity = new Vector_1.Vector2(0, 0.2);
+        _this.pos = new Vector_1.Vector2(x, y);
+        _this.new = new Vector_1.Vector2(x, y);
+        _this.velocity = velocity;
+        _this.radius = r;
+        _this.beginFill(0x9966FF);
+        _this.drawCircle(0, 0, r);
+        _this.endFill();
+        _this.game.game.stage.addChild(_this);
+        return _this;
+    }
+
+    _createClass(Circle, [{
+        key: "update",
+        value: function update() {
+            this.velocity = this.newVelocity;
+            this.pos = this.new;
+            this.x = this.pos.x;
+            this.y = this.pos.y;
+        }
+    }]);
+
+    return Circle;
+}(PIXI.Graphics);
+
+exports.Circle = Circle;
+
+},{"./Vector":198}],195:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Vector_1 = require("./Vector");
+var MathHelper_1 = require("./MathHelper");
+function collisionRectangleCircle(r, c) {
+    var dx = new Vector_1.Vector2(c.new.x - r.center.x, c.new.y - r.center.y);
+    var ax = Math.abs(dx.x);
+    var ay = Math.abs(dx.y);
+    var nx = ax - r.hw;
+    var ny = ay - r.hh;
+    if (nx > c.radius || ny > c.radius || nx > 0.0 && ny > 0.0 && nx * nx + ny * ny - c.radius * c.radius > 0.0) return { isCollided: false };
+    var closest = new Vector_1.Vector2(MathHelper_1.MathHelper.clamp(dx.x, -r.hw, r.hw), MathHelper_1.MathHelper.clamp(dx.y, -r.hh, r.hh));
+    var inside = false;
+    if (dx.equally(closest)) {
+        inside = true;
+        if (ax > ay) {
+            closest.x = closest.x > 0 ? r.hw : -r.hw;
+        } else {
+            closest.y = closest.y > 0 ? r.hh : -r.hh;
+        }
+    }
+    var norm = Vector_1.Vector2.sub(dx, closest);
+    var d = norm.len();
+    if (inside) norm = Vector_1.Vector2.negative(norm);
+    var penetration = inside ? c.radius + d : c.radius - d;
+    return { isCollided: true, normal: Vector_1.Vector2.norm(norm), penetration: penetration };
+}
+exports.collisionRectangleCircle = collisionRectangleCircle;
+
+},{"./MathHelper":196,"./Vector":198}],196:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var MathHelper = function () {
+    function MathHelper() {
+        _classCallCheck(this, MathHelper);
+    }
+
+    _createClass(MathHelper, null, [{
+        key: "clamp",
+        value: function clamp(n, min, max) {
+            return n <= min ? min : n >= max ? max : n;
+        }
+    }, {
+        key: "random",
+        value: function random(min, max) {
+            return Math.round(Math.random() * max) + parseInt(min, 10);
+        }
+    }]);
+
+    return MathHelper;
+}();
+
+exports.MathHelper = MathHelper;
+
+},{}],197:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Vector_1 = require("./Vector");
+
 var Rect = function (_PIXI$Graphics) {
     _inherits(Rect, _PIXI$Graphics);
 
@@ -41753,7 +41967,7 @@ var Rect = function (_PIXI$Graphics) {
         _this.hw = w / 2;
         _this.hh = h / 2;
         _this.angle = 0;
-        _this.bounce = 0.98;
+        _this.bounce = 1;
         _this.beginFill(fillColor);
         _this.lineStyle(2, borderColor);
         _this.drawRoundedRect(x - _this.hw, y - _this.hh, w, h, 8);
@@ -41815,334 +42029,7 @@ var Circle = function (_PIXI$Graphics2) {
     return Circle;
 }(PIXI.Graphics);
 
-exports.Circle = Circle;
-
-var Brick = function (_Rect) {
-    _inherits(Brick, _Rect);
-
-    function Brick(game, x, y) {
-        _classCallCheck(this, Brick);
-
-        return _possibleConstructorReturn(this, (Brick.__proto__ || Object.getPrototypeOf(Brick)).call(this, game, x, y, 64, 64, 0x9966FF, 0xFFFFFFFF));
-    }
-
-    _createClass(Brick, [{
-        key: "onHit",
-        value: function onHit() {}
-    }, {
-        key: "onDestroy",
-        value: function onDestroy(ball) {
-            //super.onDestroy(ball);
-        }
-    }]);
-
-    return Brick;
-}(Rect);
-
-exports.Brick = Brick;
-
-var BallSpawner = function (_Rect2) {
-    _inherits(BallSpawner, _Rect2);
-
-    function BallSpawner(game, x, y) {
-        _classCallCheck(this, BallSpawner);
-
-        return _possibleConstructorReturn(this, (BallSpawner.__proto__ || Object.getPrototypeOf(BallSpawner)).call(this, game, x, y, 64, 64, 0x9966FF, 0xFF3064));
-    }
-
-    _createClass(BallSpawner, [{
-        key: "onHit",
-        value: function onHit() {}
-    }, {
-        key: "onDestroy",
-        value: function onDestroy(ball) {
-            _get(BallSpawner.prototype.__proto__ || Object.getPrototypeOf(BallSpawner.prototype), "onDestroy", this).call(this, ball);
-            this.game.balls.push(new Circle(this.game, this.center.x, this.center.y, 8, new Vector_1.Vector2(3, 5)));
-        }
-    }]);
-
-    return BallSpawner;
-}(Rect);
-
-exports.BallSpawner = BallSpawner;
-
-var PortSrc = function (_Rect3) {
-    _inherits(PortSrc, _Rect3);
-
-    function PortSrc(game, x, y, dest) {
-        _classCallCheck(this, PortSrc);
-
-        var _this5 = _possibleConstructorReturn(this, (PortSrc.__proto__ || Object.getPrototypeOf(PortSrc)).call(this, game, x, y, 64, 64, 0x9966FF, 0x3236FF));
-
-        _this5.destination = dest;
-        return _this5;
-    }
-
-    _createClass(PortSrc, [{
-        key: "onHit",
-        value: function onHit() {
-            this.destination.onDestroy();
-            this.game.balls.push(new Circle(this.game, this.destination.center.x, this.destination.center.y, 8, new Vector_1.Vector2(3, 5)));
-        }
-    }, {
-        key: "onDestroy",
-        value: function onDestroy(ball) {
-            _get(PortSrc.prototype.__proto__ || Object.getPrototypeOf(PortSrc.prototype), "onDestroy", this).call(this, ball);
-            ball.visible = false;
-        }
-    }]);
-
-    return PortSrc;
-}(Rect);
-
-exports.PortSrc = PortSrc;
-
-var PortDst = function (_Rect4) {
-    _inherits(PortDst, _Rect4);
-
-    function PortDst(game, x, y) {
-        _classCallCheck(this, PortDst);
-
-        return _possibleConstructorReturn(this, (PortDst.__proto__ || Object.getPrototypeOf(PortDst)).call(this, game, x, y, 64, 64, 0x9966FF, 0x3236FF));
-    }
-
-    _createClass(PortDst, [{
-        key: "onHit",
-        value: function onHit() {}
-    }, {
-        key: "onDestroy",
-        value: function onDestroy(ball) {
-            _get(PortDst.prototype.__proto__ || Object.getPrototypeOf(PortDst.prototype), "onDestroy", this).call(this, ball);
-        }
-    }]);
-
-    return PortDst;
-}(Rect);
-
-exports.PortDst = PortDst;
-
-var Paddle = function (_Rect5) {
-    _inherits(Paddle, _Rect5);
-
-    function Paddle(game, x, y) {
-        _classCallCheck(this, Paddle);
-
-        var _this7 = _possibleConstructorReturn(this, (Paddle.__proto__ || Object.getPrototypeOf(Paddle)).call(this, game, 0, y, 256, 32, 0x9966FF, 0xFFFFFFFF));
-
-        _this7.bounce = 1.1;
-        return _this7;
-    }
-
-    _createClass(Paddle, [{
-        key: "update",
-        value: function update() {
-            this.x = this.center.x = this.game.mousePos;
-            //this.game.speed = 0;
-        }
-    }, {
-        key: "onHit",
-        value: function onHit() {}
-    }, {
-        key: "onDestroy",
-        value: function onDestroy(ball) {
-            //super.onBrickDestroy();
-        }
-    }]);
-
-    return Paddle;
-}(Rect);
-
-exports.Paddle = Paddle;
-
-},{"./Vector":193,"pixi.js":139}],191:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var level0 = {
-    x: 100,
-    y: 100,
-    width: 20,
-    height: 9,
-    data: [
-    //  1,1,1,1,1,1,0,0,0,0,
-    //  1,0,0,0,0,1,0,0,0,0,
-    //  1,0,0,0,0,1,0,0,0,0,
-    //  1,0,0,0,0,1,0,0,0,0,
-    //  1,0,0,0,0,1,0,0,0,0,
-    //  1,1,1,1,1,1,0,0,0,0,
-    //  0,0,0,0,0,0,0,0,0,0,
-    //  0,0,0,0,0,0,0,0,0,0
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    // 1,1,1,1,1,1,1,1,1,1,
-    // 1,0,0,0,0,0,0,2,2,1,
-    // 1,0,0,0,0,0,0,1,1,1,
-    // 1,0,0,2,2,0,0,1,1,1,
-    // 1,0,0,2,2,0,0,1,1,1,
-    // 1,0,0,0,0,0,0,2,2,1,
-    // 1,1,1,1,1,1,1,1,1,1
-    ]
-};
-exports.level0 = level0;
-
-},{}],192:[function(require,module,exports){
-"use strict";
-
-var __importStar = undefined && undefined.__importStar || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) {
-        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    }result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var PIXI = __importStar(require("pixi.js"));
-var Geometry_1 = require("./Geometry");
-var Vector_1 = require("./Vector");
-var Levels_1 = require("./Levels");
-var app = new PIXI.Application(window.innerWidth, window.innerHeight, {
-    backgroundColor: 0x4EC0CA
-});
-PIXI.loader.add("ball", "textures/ball.png").add("brick", "textures/brick.png").add("atlas", "textures/sprites.json").load(setup);
-var game;
-var stop = false;
-var fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 28, fill: 0xff1010, align: 'center' });
-function setup() {
-    var r1 = new Vector_1.Vector2(0, 1);
-    var r2 = Vector_1.Vector2.rotate(r1, Math.PI * 2 / 360 * 90);
-    console.log(r2.toString());
-    document.body.appendChild(app.view);
-    game = new function () {
-        this.game = app;
-        this.atlas = PIXI.loader.resources["atlas"].textures;
-        this.mousePos = app.renderer.width / 2;
-        this.mousePosOld = app.renderer.width / 2;
-        this.paddleDirection = 0;
-        this.speed = 0;
-    }();
-    game.balls = [];
-    game.boxes = [];
-    game.paddle = new Geometry_1.Paddle(game, app.renderer.width / 2, app.renderer.height - 32);
-    game.boxes.push(game.paddle);
-    //game.boxes.push( new Edge( -1000,-1000,1000,3000 ) );
-    game.boxes.push(new Geometry_1.Edge(-250, app.renderer.height / 2, 500, app.renderer.height)); //edge left
-    game.boxes.push(new Geometry_1.Edge(app.renderer.width + 250, app.renderer.height / 2, 500, app.renderer.height)); //edge right
-    game.boxes.push(new Geometry_1.Edge(app.renderer.width / 2, -100, app.renderer.width, 200)); //edge top
-    //game.boxes.push( new Edge( app.renderer.width/2,app.renderer.height+250,app.renderer.width,500 ) ); //edge bottom
-    //console.log(app.renderer.height);
-    //game.boxes.push( new Edge( 650,400,100,200 ) );
-    //game.boxes.push( new Brick( game,650,400 ) );
-    //    game.boxes.push( new Rect( game,app.renderer.width/2,app.renderer.height-100,2000,2000,0xFFFFFF,0xFFFFFF ) );
-    var t = void 0;
-    var p = 0;
-    var w = 64;
-    var h = 64;
-    for (var y = 0; y < Levels_1.level0.height; y++) {
-        for (var x = 0; x < Levels_1.level0.width; x++) {
-            switch (Levels_1.level0.data[p]) {
-                case 1:
-                    game.boxes.push(new Geometry_1.Brick(game, 100 + w * x, 100 + h * y));
-                    break;
-                case 2:
-                    game.boxes.push(new Geometry_1.BallSpawner(game, 100 + w * x, 100 + h * y));
-                    break;
-                case 3:
-                    t = new Geometry_1.PortDst(game, 100 + w * 5, 100 + h * 2);
-                    game.boxes.push(new Geometry_1.PortSrc(game, 100 + w * x, 100 + h * y, t));
-                    game.boxes.push(t);
-                    break;
-            }
-            p++;
-        }
-    }
-    console.log(game.boxes[0].center.toString());
-    var v = new Vector_1.Vector2(0, 0);
-    //game.balls.push( new Circle( game,224,377,8,v )); //top
-    //game.balls.push( new Circle( game,244,167,8,v ));
-    //game.balls.push( new Circle( game,310,260,8,v ));
-    //for(let i=0;i<50;i++) {   game.balls.push( new Circle( game,240,167,8,new Vector2(MathHelper.random(-4,4),MathHelper.random(-4,4)) ));    }
-    //game.balls.push( new Circle( game,450,800,8,v ));
-    //game.balls.push( new Circle( game,385,300,8,v ));
-    //game.balls.push( new Circle( game,310,310,8,v ));
-    app.renderer.plugins.interaction.on('mousedown', function () {
-        stop = false;
-        //console.log("new pos: " + game.balls[0].pos.toString() );
-        game.balls.push(new Geometry_1.Circle(game, 450, 800, 8, v));
-    });
-    app.renderer.plugins.interaction.on('mousemove', function (e) {
-        if (e.data.global.x != game.mousePos) {
-            if (game.mousePos < e.data.global.x) game.paddleDirection = 1;else game.paddleDirection = -1;
-        } else {
-            if (e.data.global.x == 0) game.paddleDirection = -1;
-            if (e.data.global.x == app.renderer.width) game.paddleDirection = 1;
-        }
-        game.speed = game.mousePos - e.data.global.x;
-        game.mousePos = e.data.global.x;
-        //console.log(game.paddleDirection);
-        //console.log(e.data.global.x);
-        //console.log("new pos: " + game.balls[0].pos.toString() );
-    });
-    //app.renderer.plugins.interaction.on('mousemove', ()=>{         
-    //game.balls[0].x = app.renderer.plugins.interaction.mouse.global.x;
-    //game.balls[0].y = app.renderer.plugins.interaction.mouse.global.y;
-    //game.balls[0].velocity = v;
-    //game.balls[0].pos = new Vector2(app.renderer.plugins.interaction.mouse.global.x,app.renderer.plugins.interaction.mouse.global.y);
-    //         console.log(collision_rectangle_circle( game.boxes[14],game.ball,game ));
-    //console.log(game.normal.toString());
-    //} );
-    fps.x = 0;
-    fps.y = app.renderer.height - 100;
-    app.stage.addChild(fps);
-    app.ticker.add(gameLoop, this);
-}
-function gameLoop(delta) {
-    var count = 0;
-    if (!stop) {
-        //stop = true;
-        for (var i = 0; i < 10; i++) {
-            count = 0;
-            delta = 0.1;
-            game.balls.forEach(function (b) {
-                if (b.y > app.renderer.height) b.visible = false;
-                if (b.visible) {
-                    count++;
-                    b.newVelocity = Vector_1.Vector2.add(b.velocity, Vector_1.Vector2.mul(b.gravity, delta));
-                    b.new = Vector_1.Vector2.add(Vector_1.Vector2.mul(b.newVelocity, delta), b.pos);
-                    game.boxes.forEach(function (box) {
-                        var c = Geometry_1.collisionRectangleCircle(box, b);
-                        if (box.visible && c.isCollided) {
-                            box.onHit();
-                            if (box.bounce == game.paddle.bounce) {
-                                var k = -1 * (b.x > box.center.x ? box.center.x - b.x : box.center.x - b.x);
-                                var l = box.hw / 30;
-                                k = k / l;
-                                c.normal.set(0, -1);
-                                c.normal = Vector_1.Vector2.rotate(c.normal, Math.PI * 2 / 360 * k);
-                            }
-                            var p = new Vector_1.Vector2(b.newVelocity);
-                            p = Vector_1.Vector2.negative(Vector_1.Vector2.mul(Vector_1.Vector2.norm(p), c.penetration));
-                            b.newVelocity = Vector_1.Vector2.reflect(b.newVelocity, c.normal);
-                            b.newVelocity = Vector_1.Vector2.mul(b.newVelocity, box.bounce);
-                            b.new = Vector_1.Vector2.add(b.new, p);
-                            if (b.pos.distance(b.new) == 0) {
-                                b.newVelocity.x = -Vector_1.MathHelper.random(0, 3);
-                                b.newVelocity.y = 5;
-                            }
-                            box.onDestroy(b);
-                        }
-                    });
-                    b.update();
-                    game.paddle.update();
-                }
-            });
-        }
-    }
-    app.renderer.render(app.stage);
-    //fps.text = app.ticker.FPS.toString();
-    fps.text = count.toString();
-}
-
-},{"./Geometry":190,"./Levels":191,"./Vector":193,"pixi.js":139}],193:[function(require,module,exports){
+},{"./Vector":198}],198:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -42274,28 +42161,188 @@ var Vector2 = function () {
 
 exports.Vector2 = Vector2;
 
-var MathHelper = function () {
-    function MathHelper() {
-        _classCallCheck(this, MathHelper);
+},{}],199:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var level0 = {
+    x: 100,
+    y: 100,
+    width: 20,
+    height: 9,
+    data: [
+    //  1,1,1,1,1,1,0,0,0,0,
+    //  1,0,0,0,0,1,0,0,0,0,
+    //  1,0,0,0,0,1,0,0,0,0,
+    //  1,0,0,0,0,1,0,0,0,0,
+    //  1,0,0,0,0,1,0,0,0,0,
+    //  1,1,1,1,1,1,0,0,0,0,
+    //  0,0,0,0,0,0,0,0,0,0,
+    //  0,0,0,0,0,0,0,0,0,0
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    // 1,1,1,1,1,1,1,1,1,1,
+    // 1,0,0,0,0,0,0,2,2,1,
+    // 1,0,0,0,0,0,0,1,1,1,
+    // 1,0,0,2,2,0,0,1,1,1,
+    // 1,0,0,2,2,0,0,1,1,1,
+    // 1,0,0,0,0,0,0,2,2,1,
+    // 1,1,1,1,1,1,1,1,1,1
+    ]
+};
+exports.level0 = level0;
+
+},{}],200:[function(require,module,exports){
+"use strict";
+
+var __importStar = undefined && undefined.__importStar || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) {
+        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    }result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var PIXI = __importStar(require("pixi.js"));
+var Collision_1 = require("./Core/Collision");
+var Circle_1 = require("./Core/Circle");
+var Paddle_1 = require("./Bricks/Paddle");
+var Edge_1 = require("./Bricks/Edge");
+var Brick_1 = require("./Bricks/Brick");
+var BallSpawner_1 = require("./Bricks/BallSpawner");
+var Vector_1 = require("./Core/Vector");
+var MathHelper_1 = require("./Core/MathHelper");
+var Levels_1 = require("./Levels/Levels");
+var app = new PIXI.Application(window.innerWidth, window.innerHeight, {
+    backgroundColor: 0x4EC0CA
+});
+PIXI.loader.add("ball", "textures/ball.png").add("brick", "textures/brick.png").add("atlas", "textures/sprites.json").load(setup);
+var game;
+var stop = false;
+var fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 28, fill: 0xff1010, align: 'center' });
+function setup() {
+    var r1 = new Vector_1.Vector2(0, 1);
+    var r2 = Vector_1.Vector2.rotate(r1, Math.PI * 2 / 360 * 90);
+    console.log(r2.toString());
+    document.body.appendChild(app.view);
+    game = new function () {
+        this.game = app;
+        this.atlas = PIXI.loader.resources["atlas"].textures;
+        this.mousePos = app.renderer.width / 2;
+        this.mousePosOld = app.renderer.width / 2;
+        this.paddleDirection = 0;
+        this.speed = 0;
+    }();
+    game.balls = [];
+    game.boxes = [];
+    game.paddle = new Paddle_1.Paddle(game, app.renderer.width / 2, app.renderer.height - 32);
+    game.boxes.push(game.paddle);
+    game.boxes.push(new Edge_1.Edge(-250, app.renderer.height / 2, 500, app.renderer.height)); //edge left
+    game.boxes.push(new Edge_1.Edge(app.renderer.width + 250, app.renderer.height / 2, 500, app.renderer.height)); //edge right
+    game.boxes.push(new Edge_1.Edge(app.renderer.width / 2, -100, app.renderer.width, 200)); //edge top
+    //game.boxes.push( new Edge( app.renderer.width/2,app.renderer.height+250,app.renderer.width,500 ) ); //edge bottom
+    var t = void 0;
+    var p = 0;
+    var w = 64;
+    var h = 64;
+    for (var y = 0; y < Levels_1.level0.height; y++) {
+        for (var x = 0; x < Levels_1.level0.width; x++) {
+            switch (Levels_1.level0.data[p]) {
+                case 1:
+                    game.boxes.push(new Brick_1.Brick(game, 100 + w * x, 100 + h * y));
+                    break;
+                case 2:
+                    game.boxes.push(new BallSpawner_1.BallSpawner(game, 100 + w * x, 100 + h * y));
+                    break;
+            }
+            p++;
+        }
     }
-
-    _createClass(MathHelper, null, [{
-        key: "clamp",
-        value: function clamp(n, min, max) {
-            return n <= min ? min : n >= max ? max : n;
+    console.log(game.boxes[0].center.toString());
+    var v = new Vector_1.Vector2(0, 2);
+    //game.balls.push( new Circle( game,224,377,8,v )); //top
+    //game.balls.push( new Circle( game,244,167,8,v ));
+    //game.balls.push( new Circle( game,310,260,8,v ));
+    //for(let i=0;i<50;i++) {   game.balls.push( new Circle( game,240,167,8,new Vector2(MathHelper.random(-4,4),MathHelper.random(-4,4)) ));    }
+    //game.balls.push( new Circle( game,450,800,8,v ));
+    //game.balls.push( new Circle( game,385,300,8,v ));
+    //game.balls.push( new Circle( game,310,310,8,v ));
+    app.renderer.plugins.interaction.on('mousedown', function () {
+        stop = false;
+        //console.log("new pos: " + game.balls[0].pos.toString() );
+        game.balls.push(new Circle_1.Circle(game, 450, 800, 8, v));
+    });
+    app.renderer.plugins.interaction.on('mousemove', function (e) {
+        game.mousePos = e.data.global.x;
+        //console.log(game.paddleDirection);
+        //console.log(e.data.global.x);
+        //console.log("new pos: " + game.balls[0].pos.toString() );
+    });
+    //app.renderer.plugins.interaction.on('mousemove', ()=>{         
+    //game.balls[0].x = app.renderer.plugins.interaction.mouse.global.x;
+    //game.balls[0].y = app.renderer.plugins.interaction.mouse.global.y;
+    //game.balls[0].velocity = v;
+    //game.balls[0].pos = new Vector2(app.renderer.plugins.interaction.mouse.global.x,app.renderer.plugins.interaction.mouse.global.y);
+    //         console.log(collision_rectangle_circle( game.boxes[14],game.ball,game ));
+    //console.log(game.normal.toString());
+    //} );
+    fps.x = 0;
+    fps.y = app.renderer.height - 100;
+    app.stage.addChild(fps);
+    app.ticker.add(gameLoop, this);
+}
+function gameLoop(delta) {
+    var count = 0;
+    if (!stop) {
+        //stop = true;
+        game.paddle.update();
+        delta = 0.1;
+        for (var i = 0; i < 10; i++) {
+            count = 0;
+            game.balls.forEach(function (b) {
+                if (b.y > app.renderer.height - game.paddle.height) b.visible = false;
+                if (b.visible) {
+                    count++;
+                    b.gravity = new Vector_1.Vector2(0, 0.03);
+                    b.newVelocity = Vector_1.Vector2.add(b.velocity, Vector_1.Vector2.mul(b.gravity, delta));
+                    b.new = Vector_1.Vector2.add(Vector_1.Vector2.mul(b.newVelocity, delta), b.pos);
+                    game.boxes.forEach(function (box) {
+                        var c = Collision_1.collisionRectangleCircle(box, b);
+                        if (box.visible && c.isCollided) {
+                            box.onHit();
+                            if (box.bounce == game.paddle.bounce) {
+                                //if( c.normal.x != 0 && c.normal.y != -1 ) 
+                                //return;
+                                var k = -1 * (b.x > box.center.x ? box.center.x - b.x : box.center.x - b.x);
+                                var l = box.hw / 30;
+                                k = k / l;
+                                c.normal.set(0, -1);
+                                c.normal = Vector_1.Vector2.rotate(c.normal, Math.PI * 2 / 360 * k);
+                            }
+                            var p = new Vector_1.Vector2(b.newVelocity);
+                            p = Vector_1.Vector2.negative(Vector_1.Vector2.mul(Vector_1.Vector2.norm(p), c.penetration));
+                            var v = Vector_1.Vector2.mul(Vector_1.Vector2.norm(b.newVelocity), 8);
+                            b.newVelocity = Vector_1.Vector2.reflect(v, c.normal);
+                            //b.newVelocity = Vector2.reflect(b.newVelocity,c.normal);
+                            b.newVelocity = Vector_1.Vector2.mul(b.newVelocity, box.bounce);
+                            b.new = Vector_1.Vector2.add(b.new, p);
+                            if (b.pos.distance(b.new) == 0) {
+                                b.newVelocity.x = -MathHelper_1.MathHelper.random(0, 3);
+                                b.newVelocity.y = 5;
+                            }
+                            box.onDestroy(b);
+                        }
+                    });
+                    b.update();
+                }
+            });
         }
-    }, {
-        key: "random",
-        value: function random(min, max) {
-            return Math.round(Math.random() * max) + parseInt(min, 10);
-        }
-    }]);
+    }
+    app.renderer.render(app.stage);
+    //fps.text = app.ticker.FPS.toString();
+    fps.text = count.toString();
+}
 
-    return MathHelper;
-}();
-
-exports.MathHelper = MathHelper;
-
-},{}]},{},[192])
+},{"./Bricks/BallSpawner":190,"./Bricks/Brick":191,"./Bricks/Edge":192,"./Bricks/Paddle":193,"./Core/Circle":194,"./Core/Collision":195,"./Core/MathHelper":196,"./Core/Vector":198,"./Levels/Levels":199,"pixi.js":139}]},{},[200])
 
 //# sourceMappingURL=bundle.js.map
