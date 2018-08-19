@@ -16,9 +16,7 @@ class Edge {
     }
 
     onHit() {
-
     }
-
     onDestroy(ball: any) {
         //console.log( this.center.toString() + " " + this.hw + " " + this.hh);
     }

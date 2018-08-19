@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
-import { collisionRectangleCircle } from "./Core/Collision"
+import { collisionRectangleCircle,collisionRectRect } from "./Core/Collision"
 import { Circle } from "./Core/Circle"
+import { Rect } from "./Core/Rect"
 import { Paddle } from "./Bricks/Paddle";
 import { Edge } from "./Bricks/Edge";
 import { Brick } from "./Bricks/Brick";
@@ -8,6 +9,7 @@ import { BallSpawner } from "./Bricks/BallSpawner";
 import { Vector2 } from "./Core/Vector";
 import { MathHelper } from "./Core/MathHelper";
 import { level0 } from "./Levels/Levels";
+import { Drop } from "./Core/Drop";
 
 const app = new PIXI.Application(window.innerWidth, window.innerHeight,
     {
@@ -16,6 +18,7 @@ const app = new PIXI.Application(window.innerWidth, window.innerHeight,
 );
 
 PIXI.loader
+    .add("drop", "textures/dropBallsSpawner.png")
     .add("ball", "textures/ball.png")
     .add("brick", "textures/brick.png")
     .add("atlas", "textures/sprites.json")
@@ -43,6 +46,7 @@ function setup() {
         this.speed = 0;
     };
 
+    game.drops = [];
     game.balls = [];
     game.boxes = [];
 
@@ -89,11 +93,18 @@ function setup() {
     app.renderer.plugins.interaction.on('mousedown', () => {
         stop = false;
         //console.log("new pos: " + game.balls[0].pos.toString() );
-        game.balls.push(new Circle(game, 450, 800, 8, v));
+        //game.balls.push(new Circle(game, 450, 800, 8, v));
+        game.balls.push(new Circle(game, 1200, 50, 8, new Vector2(1,3))); // top drop
+        //game.balls.push(new Circle(game, 0, 0, 8, new Vector2(1,3))); // top drop
+        //game.boxes.push(new Rect(game, 0,0,32,32,0,0));
+        //game.drops.push( new Drop(game,200,0,0x000000));
+        //console.log(collisionRectRect( game.drops[0],game.paddle));
+        //game.drops.push(new Drop(game, 100,100,0xFBFF1E));
     });
 
     app.renderer.plugins.interaction.on('mousemove', (e) => {
         game.mousePos = e.data.global.x;
+        
 
         //console.log(game.paddleDirection);
 
@@ -115,6 +126,11 @@ function setup() {
     fps.y = app.renderer.height - 100;
     app.stage.addChild(fps);
 
+        
+        // let t1 = new Drop(game, 100,100,0);
+        // let t2 = new Rect(game, 100+50,100,16,16,0xFFFFFF,0xFFFFFF);
+        // console.log( "collision: " + collisionRectRect( t1,t2 ));
+
     app.ticker.add(gameLoop, this);
 }
 
@@ -124,7 +140,7 @@ function gameLoop(delta) {
     if (!stop) {
 
         //stop = true;
-        game.paddle.update();
+                
         delta = 0.1;
         for (let i = 0; i < 10; i++) {
             count = 0;
@@ -140,8 +156,6 @@ function gameLoop(delta) {
                         if (box.visible && c.isCollided) {
                             box.onHit();
                             if (box.bounce == game.paddle.bounce) {
-                                //if( c.normal.x != 0 && c.normal.y != -1 ) 
-                                //return;
                                 let k = (-1 * (b.x > box.center.x ? box.center.x - b.x : box.center.x - b.x));
                                 let l = box.hw / 30;
                                 k = k / l;
@@ -155,7 +169,6 @@ function gameLoop(delta) {
 
                             let v = Vector2.mul(Vector2.norm(b.newVelocity), 8);
                             b.newVelocity = Vector2.reflect(v, c.normal);
-                            //b.newVelocity = Vector2.reflect(b.newVelocity,c.normal);
                             b.newVelocity = Vector2.mul(b.newVelocity, box.bounce);
                             b.new = Vector2.add(b.new, p);
 
@@ -170,9 +183,27 @@ function gameLoop(delta) {
                     b.update();
                 }
             });
-        }
+        }        
+        game.drops.forEach(drop => {
+            if( !drop.visible ) return;
+
+            drop.velocity = Vector2.add(drop.velocity,drop.gravity);
+            drop.center = Vector2.add(drop.center,drop.velocity);
+
+            if( drop.center.y > app.renderer.height ) drop.onDestroy();
+
+            if( !drop.touched && collisionRectRect( drop,game.paddle ) )
+            {
+                drop.center.y = game.paddle.center.y - game.paddle.hh - drop.hh;
+                drop.velocity = Vector2.reflect(drop.velocity,new Vector2(0,-1));
+                drop.onTouch();
+            }
+            drop.update();
+        });
+        game.paddle.update();
     }
     app.renderer.render(app.stage);
     //fps.text = app.ticker.FPS.toString();
     fps.text = count.toString();
+
 }

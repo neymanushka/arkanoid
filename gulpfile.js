@@ -14,7 +14,7 @@ gulp.task('copyHtml', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./src/*.ts', ['default']);
+    gulp.watch('./src/**/*.ts', ['default']);
   });
 
 gulp.task('default', ['copyHtml'], function () {

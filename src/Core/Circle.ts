@@ -22,14 +22,23 @@ class Circle extends PIXI.Graphics {
         this.beginFill(0x9966FF);
         this.drawCircle(0, 0, r);
         this.endFill();
+
+
+        //this.position.x = this.x;
+        //this.position.y = this.y;
+
         this.game.game.stage.addChild(this);
     }
 
     update() {
         this.velocity = this.newVelocity;
         this.pos = this.new;
-        this.x = this.pos.x;
-        this.y = this.pos.y;
+
+        this.position.x = this.pos.x;
+        this.position.y = this.pos.y;
+
+        //this.x = this.pos.x;
+        //this.y = this.pos.y;
     }
 }
 
