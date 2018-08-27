@@ -5,6 +5,7 @@ import { Vector2 } from "./Core/Vector";
 import { MathHelper } from "./Core/MathHelper";
 import { UI } from "./Core/UI";
 import { State } from "./Core/State";
+import { StarDropBackground } from "./Core/StarDropBackground";
 
 const app = new PIXI.Application(window.innerWidth, window.innerHeight,
     {
@@ -43,13 +44,15 @@ let fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 28, fill: 0xff1010
 
 function setup() {
 
+    document.body.appendChild(app.view);    
+
     let state = State.getInstance();
     state.init( app );
     
-    document.body.appendChild(app.view);    
+    
 
     
-    
+   
     app.renderer.plugins.interaction.on('mousedown', () => {
         stop = false;      
         //console.log("new pos: " + game.balls[0].pos.toString() );
@@ -148,6 +151,7 @@ function gameLoop(delta) {
         state.paddle.update( state.mousePos );
     }
     state.scoreLines = state.scoreLines.filter( e => e.update() );
+    state.stars.update();
     app.renderer.render(app.stage);
     //fps.text = app.ticker.FPS.toString();
     fps.text = state.balls.length.toString();

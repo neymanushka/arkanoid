@@ -4,6 +4,7 @@ import { Paddle } from "../Bricks/Paddle";
 import { Circle } from "../Core/Circle";
 import { Stage } from "./Stage";
 import { level0 } from "../levels/levels";
+import { StarDropBackground } from "./StarDropBackground";
 
 class State {
 
@@ -20,6 +21,7 @@ class State {
     balls: Circle[];
     bricks: any[];
     paddle: Paddle;
+    stars: StarDropBackground;
 
     mousePos: number;
 
@@ -37,7 +39,8 @@ class State {
         this.PADDING = ( app.renderer.width - this.WIDTH ) / 2;
         app.stage.x = this.PADDING;
         app.stage.width = this.WIDTH;
-
+        this.mousePos = this.WIDTH/2;
+        this.app.stage.addChild( this.stars = new StarDropBackground( this.WIDTH,this.app.renderer.height) );
         Stage.load( this.bricks,level0,this.WIDTH,app.renderer.height );
 
         this.initPaddle();

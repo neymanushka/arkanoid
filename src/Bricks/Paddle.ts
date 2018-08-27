@@ -7,7 +7,6 @@ class Paddle extends Rect {
     }
     update( data ) {
         this.center.x = data;
-        //this.position.x = this.center.x - this.hw;
         this.x = this.center.x - this.hw;
     }
 

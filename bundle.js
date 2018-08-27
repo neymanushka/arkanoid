@@ -41714,7 +41714,7 @@ var Brick = function (_Rect_1$Rect) {
 
 exports.Brick = Brick;
 
-},{"../Core/Rect":198,"../Core/ScoreLine":199,"../Drops/DropBallSpawner":203}],191:[function(require,module,exports){
+},{"../Core/Rect":198,"../Core/ScoreLine":199,"../Drops/DropBallSpawner":204}],191:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -41750,7 +41750,7 @@ var Edge = function () {
 
 exports.Edge = Edge;
 
-},{"../Core/Vector":202}],192:[function(require,module,exports){
+},{"../Core/Vector":203}],192:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -41780,7 +41780,6 @@ var Paddle = function (_Rect_1$Rect) {
         key: "update",
         value: function update(data) {
             this.center.x = data;
-            //this.position.x = this.center.x - this.hw;
             this.x = this.center.x - this.hw;
         }
     }, {
@@ -41879,7 +41878,7 @@ var Circle = function (_PIXI$Sprite) {
 
 exports.Circle = Circle;
 
-},{"./Vector":202}],195:[function(require,module,exports){
+},{"./Vector":203}],195:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -41914,7 +41913,7 @@ function collisionRectangleCircle(r, c) {
 }
 exports.collisionRectangleCircle = collisionRectangleCircle;
 
-},{"./MathHelper":197,"./Vector":202}],196:[function(require,module,exports){
+},{"./MathHelper":197,"./Vector":203}],196:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -41984,7 +41983,7 @@ var Drop = function (_PIXI$Sprite) {
 
 exports.Drop = Drop;
 
-},{"../Core/Collision":195,"./State":201,"./Vector":202}],197:[function(require,module,exports){
+},{"../Core/Collision":195,"./State":202,"./Vector":203}],197:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -42006,7 +42005,12 @@ var MathHelper = function () {
     }, {
         key: "random",
         value: function random(min, max) {
-            return Math.round(Math.random() * max) + parseInt(min, 10);
+            return Math.random() * (max - min) + min;
+        }
+    }, {
+        key: "randomInt",
+        value: function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
     }]);
 
@@ -42068,7 +42072,7 @@ var Rect = function (_PIXI$Sprite) {
 
 exports.Rect = Rect;
 
-},{"./State":201,"./Vector":202}],199:[function(require,module,exports){
+},{"./State":202,"./Vector":203}],199:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -42123,7 +42127,7 @@ var ScoreLine = function (_PIXI$Container) {
 
 exports.ScoreLine = ScoreLine;
 
-},{"./State":201}],200:[function(require,module,exports){
+},{"./State":202}],200:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -42169,7 +42173,84 @@ var Stage = function () {
 
 exports.Stage = Stage;
 
-},{"../Bricks/Brick":190,"../Bricks/Edge":191,"../Bricks/UnbreakableBrick":193,"../Levels/Levels":204}],201:[function(require,module,exports){
+},{"../Bricks/Brick":190,"../Bricks/Edge":191,"../Bricks/UnbreakableBrick":193,"../Levels/Levels":205}],201:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var MathHelper_1 = require("./MathHelper");
+
+var StarDropBackground = function (_PIXI$Container) {
+    _inherits(StarDropBackground, _PIXI$Container);
+
+    function StarDropBackground(width, height) {
+        _classCallCheck(this, StarDropBackground);
+
+        var _this = _possibleConstructorReturn(this, (StarDropBackground.__proto__ || Object.getPrototypeOf(StarDropBackground)).call(this));
+
+        var bg = new PIXI.Sprite(PIXI.Texture.WHITE);
+        bg.width = width;
+        bg.height = height;
+        bg.tint = 0x00000;
+        _this.addChild(bg);
+        _this.stars = [];
+        for (var i = 0; i < 100; i++) {
+            _this.stars.push(new Star(width, height));
+            _this.addChild(_this.stars[i]);
+        }
+        return _this;
+    }
+
+    _createClass(StarDropBackground, [{
+        key: "update",
+        value: function update() {
+            this.stars.forEach(function (star) {
+                return star.update();
+            });
+        }
+    }]);
+
+    return StarDropBackground;
+}(PIXI.Container);
+
+exports.StarDropBackground = StarDropBackground;
+
+var Star = function (_PIXI$Sprite) {
+    _inherits(Star, _PIXI$Sprite);
+
+    function Star(w, h) {
+        _classCallCheck(this, Star);
+
+        var _this2 = _possibleConstructorReturn(this, (Star.__proto__ || Object.getPrototypeOf(Star)).call(this, PIXI.Texture.WHITE));
+
+        _this2.width = 1;
+        _this2.height = 1;
+        _this2.heightMax = h;
+        _this2.tint = 0xFFFFFF;
+        _this2.speed = MathHelper_1.MathHelper.random(1, 5);
+        _this2.x = MathHelper_1.MathHelper.random(0, w);
+        _this2.y = MathHelper_1.MathHelper.random(0, h);
+        return _this2;
+    }
+
+    _createClass(Star, [{
+        key: "update",
+        value: function update() {
+            this.y < this.heightMax ? this.y += this.speed : this.y = 0;
+        }
+    }]);
+
+    return Star;
+}(PIXI.Sprite);
+
+},{"./MathHelper":197}],202:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -42180,6 +42261,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Paddle_1 = require("../Bricks/Paddle");
 var Stage_1 = require("./Stage");
 var levels_1 = require("../levels/levels");
+var StarDropBackground_1 = require("./StarDropBackground");
 
 var State = function () {
     function State() {
@@ -42199,6 +42281,8 @@ var State = function () {
             this.PADDING = (app.renderer.width - this.WIDTH) / 2;
             app.stage.x = this.PADDING;
             app.stage.width = this.WIDTH;
+            this.mousePos = this.WIDTH / 2;
+            this.app.stage.addChild(this.stars = new StarDropBackground_1.StarDropBackground(this.WIDTH, this.app.renderer.height));
             Stage_1.Stage.load(this.bricks, levels_1.level0, this.WIDTH, app.renderer.height);
             this.initPaddle();
         }
@@ -42238,7 +42322,7 @@ var State = function () {
 
 exports.State = State;
 
-},{"../Bricks/Paddle":192,"../levels/levels":206,"./Stage":200}],202:[function(require,module,exports){
+},{"../Bricks/Paddle":192,"../levels/levels":207,"./Stage":200,"./StarDropBackground":201}],203:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -42370,7 +42454,7 @@ var Vector2 = function () {
 
 exports.Vector2 = Vector2;
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -42417,7 +42501,7 @@ var DropBallSpawner = function (_Drop_1$Drop) {
 
 exports.DropBallSpawner = DropBallSpawner;
 
-},{"../Core/Circle":194,"../Core/Drop":196,"../Core/Vector":202}],204:[function(require,module,exports){
+},{"../Core/Circle":194,"../Core/Drop":196,"../Core/Vector":203}],205:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -42447,7 +42531,7 @@ var level0 = {
 };
 exports.level0 = level0;
 
-},{}],205:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 "use strict";
 
 var __importStar = undefined && undefined.__importStar || function (mod) {
@@ -42473,9 +42557,9 @@ var stop = false;
 var fs = false;
 var fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 28, fill: 0xff1010, align: 'center' });
 function setup() {
+    document.body.appendChild(app.view);
     var state = State_1.State.getInstance();
     state.init(app);
-    document.body.appendChild(app.view);
     app.renderer.plugins.interaction.on('mousedown', function () {
         stop = false;
         //console.log("new pos: " + game.balls[0].pos.toString() );
@@ -42559,13 +42643,14 @@ function gameLoop(delta) {
     state.scoreLines = state.scoreLines.filter(function (e) {
         return e.update();
     });
+    state.stars.update();
     app.renderer.render(app.stage);
     //fps.text = app.ticker.FPS.toString();
     fps.text = state.balls.length.toString();
     //count.toString();
 }
 
-},{"./Core/Circle":194,"./Core/Collision":195,"./Core/MathHelper":197,"./Core/State":201,"./Core/Vector":202,"pixi.js":139}],206:[function(require,module,exports){
+},{"./Core/Circle":194,"./Core/Collision":195,"./Core/MathHelper":197,"./Core/State":202,"./Core/Vector":203,"pixi.js":139}],207:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -42595,6 +42680,6 @@ var level0 = {
 };
 exports.level0 = level0;
 
-},{}]},{},[205])
+},{}]},{},[206])
 
 //# sourceMappingURL=bundle.js.map
