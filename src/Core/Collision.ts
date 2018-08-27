@@ -3,11 +3,8 @@ import { MathHelper } from "./MathHelper";
 import { Circle } from "./Circle"
 import { Rect } from "./Rect"
 
-function collisionRectRect(r1: Rect, r2: Rect) {
+function collisionRectRect(r1: any, r2: any) {
   return !(r1.center.x - r1.hw > r2.center.x + r2.hw || r1.center.x + r1.hw < r2.center.x - r2.hw || r1.center.y - r1.hh > r2.center.y + r2.hh || r1.center.y + r1.hh < r2.center.y - r2.hh);
-  //return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
-  //return !( r1.x > r2.x + r2.width || r1.x + r1.width < r2.x || r1.y > r2.y + r2.height || r1.y + r1.height + r2.h < r2.x )
-  //return !(x_1 > x_2+width_2 || x_1+width_1 < x_2 || y_1 > y_2+height_2 || y_1+height_1 < y_2);
 }
 
 function collisionRectangleCircle(r: Rect, c: Circle) {
