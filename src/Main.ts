@@ -40,11 +40,7 @@ PIXI.loader
 var stop = false;
 var fs = false;
 
-<<<<<<< HEAD
 let fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 28, fill: 0xff1020, align: 'center' });
-=======
-let fps = new PIXI.Text("0", { fontFamily: 'Arial', fontSize: 555, fill: 0xff1010, align: 'center' });
->>>>>>> test10
 
 function setup() {
 
